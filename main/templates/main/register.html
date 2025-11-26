@@ -1,0 +1,114 @@
+{% extends 'main/base.html' %}
+
+{% block content %}
+<div class="row justify-content-center align-items-center" style="min-height: 85vh;">
+    <div class="col-md-8 col-lg-6">
+        
+        <div class="card border-0 shadow-lg rounded-4 overflow-hidden">
+            
+            <div class="card-header bg-primary text-white p-4 text-center border-0">
+                <div class="bg-white bg-opacity-25 d-inline-flex align-items-center justify-content-center rounded-circle mb-3" style="width: 60px; height: 60px;">
+                    <i class="fas fa-user-plus fa-2x text-white"></i>
+                </div>
+                <h4 class="fw-bold mb-1">Bergabung dengan Arcadia</h4>
+                <p class="mb-0 opacity-75 small">Lengkapi data diri Anda untuk memulai</p>
+            </div>
+
+            <div class="card-body p-4 p-md-5">
+                <form method="POST" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    
+                    <h6 class="text-primary fw-bold mb-3 text-uppercase small letter-spacing-1">
+                        <i class="fas fa-shield-alt me-2"></i>Informasi Akun
+                    </h6>
+                    
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label small text-muted">Username</label>
+                            <div class="input-group">
+                                <span class="input-group-text bg-light border-end-0"><i class="fas fa-at text-primary"></i></span>
+                                {{ form.username }}
+                            </div>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label small text-muted">Password</label>
+                            <div class="input-group">
+                                <span class="input-group-text bg-light border-end-0"><i class="fas fa-key text-primary"></i></span>
+                                {{ form.password }}
+                            </div>
+                        </div>
+                    </div>
+
+                    <hr class="my-4 opacity-10">
+
+                    <h6 class="text-primary fw-bold mb-3 text-uppercase small letter-spacing-1">
+                        <i class="fas fa-id-card me-2"></i>Profil Peminjam
+                    </h6>
+
+                    <div class="mb-3">
+                        <label class="form-label small text-muted">Nama Lengkap</label>
+                        <div class="input-group">
+                            <span class="input-group-text bg-light border-end-0"><i class="fas fa-user text-primary"></i></span>
+                            {{ form.nama_peminjam }}
+                        </div>
+                    </div>
+
+                    <div class="mb-4">
+                        <label class="form-label small text-muted">Foto Profil</label>
+                        <div class="input-group">
+                            <span class="input-group-text bg-light border-end-0"><i class="fas fa-camera text-primary"></i></span>
+                            {{ form.foto_peminjam }}
+                        </div>
+                        <div class="form-text small text-muted">
+                            <i class="fas fa-info-circle me-1"></i> Disarankan menggunakan rasio foto 1:1 (Persegi).
+                        </div>
+                    </div>
+
+                    <div class="d-grid gap-2">
+                        <button type="submit" class="btn btn-primary py-3 rounded-3 fw-bold shadow-sm hover-scale">
+                            Daftar Sekarang <i class="fas fa-paper-plane ms-2"></i>
+                        </button>
+                    </div>
+
+                </form>
+            </div>
+            
+            <div class="card-footer bg-light p-3 text-center border-0">
+                <small class="text-muted">Sudah punya akun? 
+                    <a href="{% url 'login' %}" class="fw-bold text-decoration-none text-primary">Login di sini</a>
+                </small>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<style>
+    /* CSS Tambahan khusus halaman ini */
+    .input-group-text {
+        border-right: none;
+        background-color: #f8f9fa;
+    }
+    /* Memastikan input field dari Django menyatu dengan ikon */
+    .form-control { 
+        border-left: none; 
+        background-color: #f8f9fa;
+    }
+    .form-control:focus {
+        background-color: #fff;
+        border-color: #86b7fe;
+        box-shadow: none; /* Hapus shadow default bootstrap agar lebih clean */
+        border-left: 1px solid #86b7fe; /* Munculkan border kiri saat fokus */
+    }
+    /* Efek hover pada tombol */
+    .hover-scale {
+        transition: transform 0.2s;
+    }
+    .hover-scale:hover {
+        transform: translateY(-2px);
+    }
+    .letter-spacing-1 {
+        letter-spacing: 1px;
+    }
+</style>
+{% endblock %}

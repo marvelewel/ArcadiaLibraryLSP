@@ -1,0 +1,115 @@
+{% extends 'main/base.html' %}
+
+{% block content %}
+<style>
+    .hero-section {
+        min-height: 80vh;
+        display: flex;
+        align-items: center;
+        /* Hapus padding container bawaan agar tidak sempit */
+        width: 100%; 
+    }
+    
+    .feature-list {
+        list-style: none;
+        padding: 0;
+        margin-top: 1.5rem;
+    }
+    .feature-list li {
+        margin-bottom: 1rem;
+        display: flex;
+        align-items: center;
+        font-size: 1rem;
+        color: #555;
+    }
+    .feature-icon {
+        width: 35px;
+        height: 35px;
+        background: #eef2ff;
+        color: var(--primary-color);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-right: 12px;
+        font-size: 1rem;
+    }
+</style>
+
+<div class="hero-section">
+    <div class="row w-100 align-items-center justify-content-between g-4">
+        
+        <div class="col-lg-6 order-2 order-lg-1">
+            <div class="pe-lg-4"> <span class="badge bg-primary bg-opacity-10 text-primary mb-3 px-3 py-2 rounded-pill fw-bold">
+                    🚀 Inovasi Perpustakaan 2025
+                </span>
+                <h1 class="display-5 fw-bold mb-3" style="line-height: 1.2;">
+                    Pinjam Buku Favorit,<br> 
+                    <span class="text-primary">Tanpa Perlu Turun.</span>
+                </h1>
+                <p class="lead text-muted mb-4 fs-6">
+                    Selamat datang di <strong>Arcadia Drive-Thru</strong>. Nikmati kemudahan meminjam buku secara online dan ambil pesanan Anda melalui jalur khusus drive-thru dalam hitungan detik.
+                </p>
+
+                <ul class="feature-list">
+                    <li>
+                        <div class="feature-icon"><i class="fas fa-mouse-pointer"></i></div>
+                        <div>
+                            <strong>Pesan Online</strong><br>
+                            <small class="text-muted">Pilih buku dari katalog digital kami.</small>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="feature-icon"><i class="fas fa-car-side"></i></div>
+                        <div>
+                            <strong>Ambil via Drive-Thru</strong><br>
+                            <small class="text-muted">Cukup tunjukkan kode, ambil buku, jalan.</small>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="feature-icon"><i class="fas fa-shield-alt"></i></div>
+                        <div>
+                            <strong>Aman & Cepat</strong><br>
+                            <small class="text-muted">Proses validasi instan oleh Admin.</small>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="col-lg-5 offset-lg-1 order-1 order-lg-2">
+            <div class="card border-0 shadow-lg rounded-4 overflow-hidden">
+                <div class="card-header bg-primary text-white p-4 text-center border-0">
+                    <h4 class="mb-1 fw-bold">Member Area</h4>
+                    <p class="mb-0 small opacity-75">Silakan login untuk mulai meminjam</p>
+                </div>
+                <div class="card-body p-4 bg-white">
+                    <form method="POST">
+                        {% csrf_token %}
+                        
+                        <div class="form-floating mb-3">
+                            <input type="text" name="username" class="form-control" id="usernameInput" placeholder="Username" required>
+                            <label for="usernameInput"><i class="fas fa-user me-2 text-muted"></i>Username</label>
+                        </div>
+
+                        <div class="form-floating mb-4">
+                            <input type="password" name="password" class="form-control" id="passwordInput" placeholder="Password" required>
+                            <label for="passwordInput"><i class="fas fa-lock me-2 text-muted"></i>Password</label>
+                        </div>
+
+                        <button type="submit" class="btn btn-primary w-100 py-3 rounded-3 fw-bold shadow-sm mb-3">
+                            Masuk ke Dashboard <i class="fas fa-arrow-right ms-2"></i>
+                        </button>
+
+                        <div class="text-center">
+                            <p class="text-muted small mb-0">Belum menjadi anggota?</p>
+                            <a href="{% url 'register' %}" class="fw-bold text-decoration-none">Daftar Akun Baru</a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,74 @@
+{% extends 'main/base.html' %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-6 col-lg-5">
+        
+        <div class="mb-4 text-center">
+            <a href="{% url 'kelola_buku' %}" class="text-decoration-none text-muted fw-bold small">
+                <i class="fas fa-arrow-left me-1"></i> Kembali ke Daftar Buku
+            </a>
+        </div>
+
+        <div class="card border-0 shadow-sm rounded-4 overflow-hidden">
+            <div class="card-header bg-warning bg-opacity-10 p-4 border-bottom-0 text-center">
+                <div class="bg-warning bg-opacity-25 text-warning rounded-circle d-inline-flex align-items-center justify-content-center mb-3" style="width: 60px; height: 60px;">
+                    <i class="fas fa-pen-nib fs-3"></i>
+                </div>
+                <h5 class="mb-1 fw-bold text-dark">Edit Data Buku</h5>
+                <p class="text-muted small mb-0">Perbarui informasi detail buku ini.</p>
+            </div>
+            
+            <div class="card-body p-4 bg-white">
+                <form method="POST">
+                    {% csrf_token %}
+                    
+                    <div class="mb-3">
+                        <label class="form-label fw-bold small text-muted text-uppercase">Informasi Utama</label>
+                        <div class="form-floating mb-2">
+                            <input type="text" name="judul" class="form-control bg-light border-0" id="editJudul" value="{{ buku.judul_buku }}" required>
+                            <label for="editJudul">Judul Buku</label>
+                        </div>
+                    </div>
+
+                    <div class="row g-2 mb-3">
+                        <div class="col-md-6">
+                            <div class="form-floating">
+                                <input type="text" name="pengarang" class="form-control bg-light border-0" id="editPengarang" value="{{ buku.nama_pengarang }}" required>
+                                <label for="editPengarang">Pengarang</label>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-floating">
+                                <input type="text" name="penerbit" class="form-control bg-light border-0" id="editPenerbit" value="{{ buku.nama_penerbit }}" required>
+                                <label for="editPenerbit">Penerbit</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="mb-4">
+                        <label class="form-label fw-bold small text-muted text-uppercase">Detail Terbit</label>
+                        <input type="date" name="tgl_terbit" class="form-control bg-light border-0 py-3" value="{{ buku.tgl_terbit|date:'Y-m-d' }}" required>
+                    </div>
+
+                    <div class="d-grid gap-2">
+                        <button type="submit" class="btn btn-primary rounded-pill py-3 fw-bold shadow-sm hover-scale">
+                            <i class="fas fa-save me-2"></i>Simpan Perubahan
+                        </button>
+                        <a href="{% url 'kelola_buku' %}" class="btn btn-light rounded-pill py-3 fw-bold text-muted">
+                            Batal
+                        </a>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<style>
+    .hover-scale { transition: transform 0.2s; }
+    .hover-scale:hover { transform: translateY(-2px); }
+    .form-control:focus { background-color: #fff; box-shadow: none; border: 1px solid #ffc107; } /* Warna fokus kuning saat edit */
+</style>
+{% endblock %}

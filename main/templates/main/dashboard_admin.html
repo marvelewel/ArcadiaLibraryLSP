@@ -1,0 +1,137 @@
+{% extends 'main/base.html' %}
+
+{% block content %}
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <div>
+        <h4 class="fw-bold mb-1">Dashboard Admin</h4>
+        <p class="text-muted small mb-0">Pantau aktivitas masuk dan kelola persetujuan.</p>
+    </div>
+    <div>
+        <a href="{% url 'kelola_buku' %}" class="btn btn-outline-primary rounded-pill px-4 fw-bold shadow-sm">
+            <i class="fas fa-book me-2"></i>Kelola Data Buku
+        </a>
+    </div>
+</div>
+
+<div class="card border-0 shadow-sm rounded-4 bg-primary text-white overflow-hidden position-relative mb-4">
+    <div class="card-body p-4 d-flex justify-content-between align-items-center position-relative" style="z-index: 2;">
+        <div>
+            <h5 class="fw-bold mb-1"><i class="fas fa-clipboard-list me-2"></i>Status Antrean</h5>
+            <p class="mb-0 opacity-75 small">Kelola pesanan masuk dengan cepat untuk pelayanan Drive-Thru yang efisien.</p>
+        </div>
+        <div class="text-end">
+            <h2 class="fw-bold mb-0">{{ daftar_pinjam.count }}</h2>
+            <small class="opacity-75">Total Transaksi</small>
+        </div>
+    </div>
+    
+    <i class="fas fa-layer-group position-absolute bottom-0 end-0 me-4 mb-n2" style="font-size: 8rem; opacity: 0.1; z-index: 1;"></i>
+</div>
+
+<div class="card border-0 shadow-sm rounded-4 overflow-hidden">
+    <div class="card-header bg-white px-4 py-3 border-bottom d-flex align-items-center">
+        <h6 class="mb-0 fw-bold text-uppercase text-muted" style="letter-spacing: 1px; font-size: 0.75rem;">Daftar Pesanan Masuk</h6>
+    </div>
+    
+    <div class="card-body p-0">
+        <div class="table-responsive">
+            <table class="table table-hover align-middle mb-0">
+                <thead class="bg-light">
+                    <tr>
+                        <th class="ps-4 py-3 text-secondary small text-uppercase fw-bold">Peminjam</th>
+                        <th class="py-3 text-secondary small text-uppercase fw-bold">Detail Pesanan</th>
+                        <th class="py-3 text-secondary small text-uppercase fw-bold text-center">Jml Buku</th>
+                        <th class="py-3 text-secondary small text-uppercase fw-bold">Status</th>
+                        <th class="pe-4 py-3 text-secondary small text-uppercase fw-bold text-end">Aksi</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for p in daftar_pinjam %}
+                    <tr>
+                        <td class="ps-4 py-3">
+                            <div class="d-flex align-items-center">
+                                {% if p.peminjam.foto_peminjam %}
+                                    <img src="{{ p.peminjam.foto_peminjam.url }}" class="rounded-circle me-3 border shadow-sm" width="45" height="45" style="object-fit: cover;">
+                                {% else %}
+                                    <div class="rounded-circle bg-light text-secondary d-flex align-items-center justify-content-center me-3 border" style="width: 45px; height: 45px;">
+                                        <i class="fas fa-user"></i>
+                                    </div>
+                                {% endif %}
+                                <div>
+                                    <div class="fw-bold text-dark">{{ p.peminjam.nama_peminjam }}</div>
+                                    <small class="text-muted" style="font-size: 0.75rem;">@{{ p.peminjam.user.username }}</small>
+                                </div>
+                            </div>
+                        </td>
+
+                        <td>
+                            <div class="d-flex align-items-center">
+                                <div class="bg-light rounded p-2 me-3 text-center border" style="min-width: 50px;">
+                                    <small class="d-block fw-bold text-primary">{{ p.tgl_pesan|date:"d" }}</small>
+                                    <small class="d-block text-muted" style="font-size: 0.65rem; line-height: 1;">{{ p.tgl_pesan|date:"M" }}</small>
+                                </div>
+                                <div>
+                                    <span class="badge bg-light text-dark border font-monospace mb-1">{{ p.kode_pinjam }}</span>
+                                    <small class="d-block text-muted" style="font-size: 0.75rem;">{{ p.tgl_pesan|date:"Y" }}</small>
+                                </div>
+                            </div>
+                        </td>
+
+                        <td class="text-center">
+                            <span class="badge bg-primary bg-opacity-10 text-primary rounded-pill px-3">
+                                {{ p.detilpeminjaman_set.count }} Buku
+                            </span>
+                        </td>
+
+                        <td>
+                            {% if p.status_pinjam == 'DIPROSES' %}
+                                <span class="badge bg-warning bg-opacity-10 text-warning border border-warning border-opacity-25 rounded-pill px-2">
+                                    <i class="fas fa-clock me-1"></i> Diproses
+                                </span>
+                            {% elif p.status_pinjam == 'DISETUJUI' %}
+                                <span class="badge bg-success bg-opacity-10 text-success border border-success border-opacity-25 rounded-pill px-2">
+                                    <i class="fas fa-check me-1"></i> Disetujui
+                                </span>
+                            {% elif p.status_pinjam == 'DITOLAK' %}
+                                <span class="badge bg-danger bg-opacity-10 text-danger border border-danger border-opacity-25 rounded-pill px-2">
+                                    <i class="fas fa-times me-1"></i> Ditolak
+                                </span>
+                            {% else %}
+                                <span class="badge bg-secondary bg-opacity-10 text-secondary border border-secondary border-opacity-25 rounded-pill px-2">
+                                    <i class="fas fa-flag-checkered me-1"></i> Selesai
+                                </span>
+                            {% endif %}
+                        </td>
+
+                        <td class="pe-4 text-end">
+                            <a href="{% url 'detail_pesanan' p.kode_pinjam %}" class="btn btn-sm btn-primary rounded-pill px-3 shadow-sm hover-scale fw-bold">
+                                Review <i class="fas fa-arrow-right ms-1"></i>
+                            </a>
+                        </td>
+                    </tr>
+                    {% empty %}
+                    <tr>
+                        <td colspan="5" class="text-center py-5 text-muted">
+                            <div class="mb-3">
+                                <i class="fas fa-inbox fa-3x opacity-25"></i>
+                            </div>
+                            <h6>Tidak ada pesanan masuk saat ini.</h6>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="card-footer bg-white border-top-0 py-3 text-center">
+        <small class="text-muted">Menampilkan {{ daftar_pinjam|length }} transaksi terbaru</small>
+    </div>
+</div>
+
+<style>
+    .hover-scale { transition: transform 0.2s; }
+    .hover-scale:hover { transform: translateY(-2px); }
+</style>
+
+{% endblock %}
